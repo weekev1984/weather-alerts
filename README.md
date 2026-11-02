@@ -34,6 +34,40 @@ Wiltshire, Dorset and neighbours). Met Office regions are broader than SSEN's
 licence areas, so some flagged warnings (e.g. Glasgow or Kent) will be just
 outside the network.
 
+## Preliminary storm alerts
+
+Separately from the official warnings, `storm_outlook.py` looks up to 10 days
+ahead for storms, so you get a heads-up before the Met Office issues anything.
+It runs in the same 4-hourly job.
+
+- **Source:** free ensemble forecasts of wind gusts from
+  [Open-Meteo](https://open-meteo.com/en/docs/ensemble-api): ECMWF (51 runs)
+  and GFS (31 runs) of the same forecast, each slightly different. The share of
+  runs showing damaging gusts at a place is used as the chance of a storm.
+- **Where:** 26 places, weighted to SSEN areas (Lerwick, Kirkwall, Stornoway,
+  Wick, Inverness, Aberdeen, Fort William, Oban, Perth; Reading, Oxford,
+  Salisbury, Portsmouth, Bournemouth, Isle of Wight) plus 11 across the rest of
+  the UK.
+- **What counts as damaging:** gusts around the level of a Met Office yellow
+  wind warning: 50-55 mph inland, 60-65 mph on coasts, 70-75 mph in Orkney,
+  Shetland, the Western Isles and Caithness. Edit `LOCATIONS` in
+  `storm_outlook.py` to change places or thresholds.
+- **When it alerts:** at least a **30% chance** at any place, more than 12 hours
+  ahead (formal warnings cover the short term). Change the 30 with a repository
+  variable `PRELIM_PROBABILITY`.
+- **How it looks:** titles start `PRELIMINARY: possible storm Thu 5 Nov` (with
+  `SSEN AREA` in front when an SSEN place is affected), and the message lists
+  each place's chance and expected gusts. Normal priority, or high for SSEN
+  areas or a 70%+ chance, so they never look like a real amber or red warning.
+- **No duplicates:** each storm is sent once, remembered in `storm_state.json`.
+  It is sent again (as `UPDATE`) only if it moves up a band (50%, then 70%) or
+  newly reaches an SSEN area. A storm whose timing shifts by a day between
+  forecasts counts as the same storm.
+
+These are early signals, not forecasts you should act on alone: many will fade
+as the day gets closer. If the outlook can't be fetched, the official warnings
+still run as normal.
+
 ## Setup (about 5 minutes)
 
 1. **Phone:** install the ntfy app

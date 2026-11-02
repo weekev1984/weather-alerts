@@ -112,8 +112,6 @@ def colour_tag(title: str) -> str:
 
 
 def send_ntfy(warning: dict, priority_regions: list[str]) -> None:
-    server = os.environ.get("NTFY_SERVER", "https://ntfy.sh").rstrip("/")
-    topic = os.environ.get("NTFY_TOPIC", "")
     title = warning["title"] or "Met Office weather warning"
     message = warning["description"] or warning["title"]
     tags = [colour_tag(title)]
@@ -123,7 +121,6 @@ def send_ntfy(warning: dict, priority_regions: list[str]) -> None:
         message = f"Affects your priority area(s): {names}\n\n{message}"
         tags.insert(0, "zap")
     payload = {
-        "topic": topic,
         "title": title,
         "message": message[:3500],
         "priority": priority_for(warning["title"], bool(priority_regions)),
@@ -133,6 +130,13 @@ def send_ntfy(warning: dict, priority_regions: list[str]) -> None:
         payload["click"] = warning["link"]
         payload["actions"] = [{"action": "view", "label": "Open Met Office", "url": warning["link"]}]
 
+    post_ntfy(payload)
+
+
+def post_ntfy(payload: dict) -> None:
+    """POST a JSON message to ntfy (the topic is filled in from NTFY_TOPIC)."""
+    server = os.environ.get("NTFY_SERVER", "https://ntfy.sh").rstrip("/")
+    payload = {"topic": os.environ.get("NTFY_TOPIC", ""), **payload}
     if os.environ.get("DRY_RUN") == "1":
         print("DRY RUN, would send:", json.dumps(payload, ensure_ascii=False))
         return
