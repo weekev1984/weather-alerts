@@ -33,8 +33,8 @@ jobs:
 
       - name: Check for new warnings
         env:
-          # Accept the secret under either name.
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC || secrets.KEVS_WEATHER }}
+          # Accept the topic as a secret or a variable, under either name.
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC || secrets.KEVS_WEATHER || vars.NTFY_TOPIC || vars.KEVS_WEATHER }}
           SEND_TEST: ${{ inputs.send_test && '1' || '' }}
           NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
           REGIONS: ${{ vars.REGIONS || 'UK' }}
