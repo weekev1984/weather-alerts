@@ -1,2 +1,81 @@
-# weather-alerts
-Weather alerts monitoring and notifications
+# Met Office warning notifier
+
+Checks the Met Office's official weather warnings RSS feed every 4 hours and
+sends a push notification to your phone (via [ntfy](https://ntfy.sh)) whenever
+a new warning appears. Runs for free on GitHub Actions. No server needed.
+
+## How it works
+
+1. Every 4 hours, GitHub Actions runs `check_warnings.py`.
+2. It reads the warnings feed for your region(s) from
+   `https://weather.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/<code>`.
+3. Any warning it hasn't seen before is pushed to your ntfy topic. Updated or
+   reissued warnings count as new.
+4. It remembers what it has sent in `state.json`, committed back to the repo.
+
+It tracks **every** UK warning, and flags the ones in SSEN Distribution's
+areas (north of Scotland and central southern England) so they stand out:
+
+| | SSEN area | Elsewhere in the UK |
+|---|---|---|
+| Title | starts `SSEN AREA:` with a ⚡ | plain |
+| Message | lists which of your areas are affected | the warning text |
+| Yellow | high priority | normal priority |
+| Amber | urgent (bypasses quiet mode if you allow it) | high priority |
+| Red | urgent | urgent |
+
+Tapping a notification opens the Met Office warnings page.
+
+The SSEN areas are mapped onto Met Office warning regions as
+`os,he,gr,ta,st` (north of Scotland: Orkney & Shetland, Highlands & Eilean Siar,
+Grampian, Central/Tayside/Fife, Strathclyde for Argyll) and `se,sw`
+(central southern England: Hampshire, Berkshire, Oxfordshire, Isle of Wight,
+Wiltshire, Dorset and neighbours). Met Office regions are broader than SSEN's
+licence areas, so some flagged warnings (e.g. Glasgow or Kent) will be just
+outside the network.
+
+## Setup (about 5 minutes)
+
+1. **Phone:** install the ntfy app
+   ([Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy),
+   [iPhone](https://apps.apple.com/app/ntfy/id1625396347)). Tap **+** and
+   subscribe to a topic name that's hard to guess, e.g. `kevin-weather-7fq2x9`.
+   Anyone who knows the name can read it, so don't use something obvious.
+2. **GitHub:** create a new repository (private is fine) and upload these files.
+3. In the repo go to **Settings → Secrets and variables → Actions**:
+   - **Secrets** tab → *New repository secret* → name `NTFY_TOPIC`, value your topic name.
+   - (Optional) **Variables** tab → *New repository variable* → name
+     `PRIORITY_REGIONS`, to change which regions are flagged (default
+     `os,he,gr,ta,st,se,sw`).
+4. Go to **Actions → Check Met Office warnings → Run workflow** to test it
+   straight away. Any warnings in force right now will be sent on this first run.
+
+## Region codes
+
+| Code | Region | Code | Region |
+|---|---|---|---|
+| `UK` | Whole UK (default) | `wl` | Wales |
+| `os` | Orkney & Shetland | `nw` | North West England |
+| `he` | Highlands & Eilean Siar | `ne` | North East England |
+| `gr` | Grampian | `yh` | Yorkshire & Humber |
+| `st` | Strathclyde | `wm` | West Midlands |
+| `ta` | Central, Tayside & Fife | `em` | East Midlands |
+| `dg` | SW Scotland, Lothian Borders | `ee` | East of England |
+| `ni` | Northern Ireland | `sw` | South West England |
+| | | `se` | London & South East England |
+
+## Notes
+
+- **ntfy (free) tradeoffs:** anyone who guesses your topic name can read or
+  send to it, so pick a random one. ntfy.sh keeps messages for 12 hours, so if
+  your phone is off for longer you could miss one (the Met Office page always
+  has the full list). On iPhone, delivery goes through ntfy's Apple relay and
+  is normally a few seconds.
+- **Timing:** GitHub's scheduled runs can start a few minutes (occasionally
+  longer) after the scheduled time. Edit the `cron` line in
+  `.github/workflows/check-warnings.yml` to check more often, e.g.
+  `"7 * * * *"` for hourly.
+- **Keeping the schedule alive:** GitHub pauses schedules in repos with no
+  activity for 60 days, so the script rewrites `state.json` at least every 30 days.
+- **Test locally:** `DRY_RUN=1 python check_warnings.py` prints what it would send.
+  Run the tests with `python -m unittest discover -s tests`.
