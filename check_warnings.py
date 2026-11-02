@@ -246,7 +246,24 @@ def run(now: dt.datetime | None = None, fetcher=fetch, sender=send_ntfy) -> int:
     return 1 if len(failed) == len(feeds) else 0
 
 
+def send_test() -> None:
+    send_ntfy(
+        {
+            "title": "Test: Met Office warning notifier is working",
+            "description": "You'll get a notification like this whenever a new warning is issued.",
+            "link": "https://weather.metoffice.gov.uk/warnings-and-advice/uk-warnings",
+        },
+        [],
+    )
+    print("Sent test notification.")
+
+
 if __name__ == "__main__":
-    if "NTFY_TOPIC" not in os.environ and os.environ.get("DRY_RUN") != "1":
-        sys.exit("Set NTFY_TOPIC (or DRY_RUN=1).")
+    if not os.environ.get("NTFY_TOPIC") and os.environ.get("DRY_RUN") != "1":
+        sys.exit(
+            "NTFY_TOPIC is empty: add a repository secret named NTFY_TOPIC whose value is "
+            "your ntfy topic name (Settings > Secrets and variables > Actions)."
+        )
+    if os.environ.get("SEND_TEST") == "1":
+        send_test()
     sys.exit(run())

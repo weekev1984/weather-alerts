@@ -48,7 +48,8 @@ outside the network.
      `PRIORITY_REGIONS`, to change which regions are flagged (default
      `os,he,gr,ta,st,se,sw`).
 4. Go to **Actions → Check Met Office warnings → Run workflow** to test it
-   straight away. Any warnings in force right now will be sent on this first run.
+   straight away. Tick "Also send a test notification" to check your phone gets
+   it. Any warnings in force right now will be sent on this first run.
 
 ## Region codes
 

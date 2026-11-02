@@ -3,7 +3,12 @@ name: Check Met Office warnings
 on:
   schedule:
     - cron: "7 */4 * * *"   # every 4 hours (UTC), a few minutes past to avoid the busy top of the hour
-  workflow_dispatch: {}      # lets you run it by hand from the Actions tab
+  workflow_dispatch:         # lets you run it by hand from the Actions tab
+    inputs:
+      send_test:
+        description: "Also send a test notification to your phone"
+        type: boolean
+        default: false
 
 permissions:
   contents: write            # to save state.json back to the repo
@@ -28,7 +33,9 @@ jobs:
 
       - name: Check for new warnings
         env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          # Accept the secret under either name.
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC || secrets.KEVS_WEATHER }}
+          SEND_TEST: ${{ inputs.send_test && '1' || '' }}
           NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
           REGIONS: ${{ vars.REGIONS || 'UK' }}
           PRIORITY_REGIONS: ${{ vars.PRIORITY_REGIONS || 'os,he,gr,ta,st,se,sw' }}
