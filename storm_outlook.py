@@ -245,7 +245,12 @@ def run(now: dt.datetime | None = None, fetcher=cw.fetch, poster=cw.post_ntfy) -
         print("No ensemble forecasts available, skipping storm outlook.", file=sys.stderr)
         return 1
 
-    storms = find_storms(assess(responses, now, min_lead), min_prob)
+    chances = assess(responses, now, min_lead)
+    if chances:
+        (i, day), top = max(chances.items(), key=lambda kv: kv[1]["prob"])
+        print(f"Highest chance: {top['prob']}% of {LOCATIONS[i][4]}+ mph gusts at "
+              f"{LOCATIONS[i][0]} on {day} (median {top['median']}, highest {top['max']} mph)")
+    storms = find_storms(chances, min_prob)
     state = cw.load_state(state_path)
     today = now.date()
     known = [s for s in state.get("storms", [])
