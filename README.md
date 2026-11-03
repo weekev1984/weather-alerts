@@ -68,6 +68,18 @@ These are early signals, not forecasts you should act on alone: many will fade
 as the day gets closer. If the outlook can't be fetched, the official warnings
 still run as normal.
 
+## Heartbeat ("it's still running") messages
+
+After every run you also get a quiet, low-priority message such as
+`Weather check ran Tue 03 Nov 08:07 (GMT)` with a one-line summary of the Met
+Office check and the storm outlook (including the highest storm chance found),
+plus when the next check is due. Tapping it opens the run's log.
+
+To turn these off: **Settings → Secrets and variables → Actions → Variables →
+New repository variable**, name `HEARTBEAT`, value `off`. Set it back to `on`
+(or delete the variable) to turn them on again. Warnings and preliminary storm
+alerts are always sent, whatever this is set to.
+
 ## Setup (about 5 minutes)
 
 1. **Phone:** install the ntfy app
