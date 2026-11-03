@@ -6,7 +6,8 @@ a new warning appears. Runs for free on GitHub Actions. No server needed.
 
 ## How it works
 
-1. Every hour, GitHub Actions runs `check_warnings.py`.
+1. Every hour, a free [cron-job.org](https://cron-job.org) job starts the
+   GitHub Actions workflow, which runs `check_warnings.py`.
 2. It reads the warnings feed for your region(s) from
    `https://weather.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/<code>`.
 3. Any warning it hasn't seen before is pushed to your ntfy topic. Updated or
@@ -71,7 +72,7 @@ still run as normal.
 ## Heartbeat ("it's still running") messages
 
 After every run you also get a quiet, low-priority message such as
-`Weather check ran Tue 03 Nov 08:07 (GMT)` with a one-line summary of the Met
+`Weather check ran Tue 03 Nov 08:00 (GMT)` with a one-line summary of the Met
 Office check and the storm outlook (including the highest storm chance found),
 plus when the next check is due. Tapping it opens the run's log.
 
@@ -118,12 +119,16 @@ alerts are always sent, whatever this is set to.
   your phone is off for longer you could miss one (the Met Office page always
   has the full list). On iPhone, delivery goes through ntfy's Apple relay and
   is normally a few seconds.
-- **Timing:** GitHub's scheduled runs can start a few minutes (occasionally
-  longer) after the scheduled time. Edit the `cron` line in
-  `.github/workflows/check-warnings.yml` to change how often it checks, e.g.
-  `"7 */4 * * *"` for every 4 hours. If you change it, also update
-  `INTERVAL_HOURS` in `heartbeat.py` so the "next check" time stays right.
-- **Keeping the schedule alive:** GitHub pauses schedules in repos with no
-  activity for 60 days, so the script rewrites `state.json` at least every 30 days.
+- **Timing / the hourly trigger:** GitHub's built-in `schedule` trigger kept
+  skipping runs, so the workflow is started by a cron-job.org job instead:
+  `POST https://api.github.com/repos/weekev1984/weather-alerts/actions/workflows/check-warnings.yml/dispatches`
+  with headers `Authorization: Bearer <token>`,
+  `Accept: application/vnd.github+json`, `Content-Type: application/json` and
+  body `{"ref":"main"}`, every hour on the hour. The token is a fine-grained
+  GitHub token for this repo only, with **Actions: Read and write**. A test run
+  should return **204**. If the heartbeats stop, check the job's history on
+  cron-job.org (a 401 means the token expired or was revoked). To change how
+  often it checks, change the cron-job.org schedule and `INTERVAL_HOURS` /
+  `CRON_MINUTE` in `heartbeat.py` so the "next check" time stays right.
 - **Test locally:** `DRY_RUN=1 python check_warnings.py` prints what it would send.
   Run the tests with `python -m unittest discover -s tests`.

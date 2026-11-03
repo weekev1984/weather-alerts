@@ -1,9 +1,10 @@
 name: Check Met Office warnings
 
+# Started every hour, on the hour, by an external cron-job.org job that calls
+# the workflow_dispatch API (GitHub's own schedule kept skipping runs, so it
+# was removed). You can also run it by hand from the Actions tab.
 on:
-  schedule:
-    - cron: "7 * * * *"     # every hour (UTC), a few minutes past to avoid the busy top of the hour
-  workflow_dispatch:         # lets you run it by hand from the Actions tab
+  workflow_dispatch:
     inputs:
       send_test:
         description: "Also send a test notification to your phone"

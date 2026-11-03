@@ -19,12 +19,12 @@ import sys
 import check_warnings as cw
 
 OFF_VALUES = {"off", "false", "0", "no", "disabled"}
-INTERVAL_HOURS = 1   # matches the cron "7 * * * *" in the workflow
-CRON_MINUTE = 7
+INTERVAL_HOURS = 1   # matches the hourly cron-job.org job (see README)
+CRON_MINUTE = 0
 
 
 def next_scheduled(now: dt.datetime) -> dt.datetime:
-    """Next cron slot (every INTERVAL_HOURS hours UTC, at :07) after now."""
+    """Next cron slot (every INTERVAL_HOURS hours UTC, at CRON_MINUTE) after now."""
     t = now.astimezone(dt.timezone.utc).replace(minute=CRON_MINUTE, second=0, microsecond=0)
     t = t.replace(hour=t.hour - t.hour % INTERVAL_HOURS)
     while t <= now:
@@ -48,7 +48,7 @@ def build_payload(now: dt.datetime, summary: list[str], run_url: str = "") -> di
     local = _local(now)
     nxt = _local(next_scheduled(now))
     lines = summary or ["No summary recorded (a check may have failed, see the Actions log)."]
-    message = "\n".join(lines) + f"\n\nNext scheduled check around {nxt:%H:%M} (GitHub can run a little late)."
+    message = "\n".join(lines) + f"\n\nNext scheduled check around {nxt:%H:%M}."
     payload = {
         "title": f"Weather check ran {local:%a %d %b %H:%M} ({local.tzname() or 'UTC'})",
         "message": message,
