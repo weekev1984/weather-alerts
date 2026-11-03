@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Send a low-priority "the checker ran" notification after every scheduled run.
 
-Lets you confirm the 4-hourly schedule is working. It only adds this one extra
+Lets you confirm the hourly schedule is working. It only adds this one extra
 message; real warnings and preliminary storm alerts are sent regardless.
 
   HEARTBEAT          "on" (default) or "off". Set the repository variable
@@ -19,12 +19,12 @@ import sys
 import check_warnings as cw
 
 OFF_VALUES = {"off", "false", "0", "no", "disabled"}
-INTERVAL_HOURS = 4   # matches the cron "7 */4 * * *" in the workflow
+INTERVAL_HOURS = 1   # matches the cron "7 * * * *" in the workflow
 CRON_MINUTE = 7
 
 
 def next_scheduled(now: dt.datetime) -> dt.datetime:
-    """Next cron slot (UTC hours divisible by 4, at :07) after now."""
+    """Next cron slot (every INTERVAL_HOURS hours UTC, at :07) after now."""
     t = now.astimezone(dt.timezone.utc).replace(minute=CRON_MINUTE, second=0, microsecond=0)
     t = t.replace(hour=t.hour - t.hour % INTERVAL_HOURS)
     while t <= now:
