@@ -33,6 +33,7 @@ jobs:
 
       - name: Check for new warnings
         env:
+          RUN_SUMMARY_FILE: ${{ runner.temp }}/run_summary.txt
           # Accept the topic as a secret or a variable, under either name.
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC || secrets.KEVS_WEATHER || vars.NTFY_TOPIC || vars.KEVS_WEATHER }}
           SEND_TEST: ${{ inputs.send_test && '1' || '' }}
@@ -48,7 +49,21 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC || secrets.KEVS_WEATHER || vars.NTFY_TOPIC || vars.KEVS_WEATHER }}
           NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
           PRELIM_PROBABILITY: ${{ vars.PRELIM_PROBABILITY || '30' }}
+          RUN_SUMMARY_FILE: ${{ runner.temp }}/run_summary.txt
         run: python storm_outlook.py
+
+      # "Still running" ping after every run. Turn off by setting the repository
+      # variable HEARTBEAT to off. Real warnings and storm alerts are unaffected.
+      - name: Send heartbeat
+        if: always()
+        continue-on-error: true
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC || secrets.KEVS_WEATHER || vars.NTFY_TOPIC || vars.KEVS_WEATHER }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          HEARTBEAT: ${{ vars.HEARTBEAT || 'on' }}
+          RUN_SUMMARY_FILE: ${{ runner.temp }}/run_summary.txt
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python heartbeat.py
 
       - name: Save seen warnings
         if: always()

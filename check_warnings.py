@@ -11,6 +11,8 @@ Uses only the Python standard library. Configure with environment variables:
   NTFY_TOKEN   optional access token if your ntfy topic is protected
   STATE_FILE   where seen warnings are remembered (default "state.json")
   DRY_RUN      set to "1" to print notifications instead of sending them
+  RUN_SUMMARY_FILE   optional file to append a one-line run summary to (read by
+                     heartbeat.py for the "still running" notification)
 """
 
 from __future__ import annotations
@@ -152,6 +154,18 @@ def post_ntfy(payload: dict) -> None:
         resp.read()
 
 
+def note_summary(line: str) -> None:
+    """Append a line to RUN_SUMMARY_FILE (if set) for the heartbeat notification."""
+    path = os.environ.get("RUN_SUMMARY_FILE")
+    if not path:
+        return
+    try:
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(line.strip() + "\n")
+    except OSError as exc:
+        print(f"could not write run summary: {exc}", file=sys.stderr)
+
+
 def load_state(path: str) -> dict:
     try:
         with open(path, encoding="utf-8") as f:
@@ -247,6 +261,11 @@ def run(now: dt.datetime | None = None, fetcher=fetch, sender=send_ntfy) -> int:
         save_state(state_path, {"seen": new_seen, "last_written": now.isoformat()})
 
     print(f"Sent {sent} notification(s).")
+    ssen = sum(1 for w in warnings.values() if w["priority_regions"])
+    line = f"Met Office: {len(warnings)} active warning(s), {ssen} in SSEN areas, {sent} new sent"
+    if failed:
+        line += f" (could not read: {', '.join(failed)})"
+    note_summary(line)
     return 1 if len(failed) == len(feeds) else 0
 
 

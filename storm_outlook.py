@@ -243,6 +243,7 @@ def run(now: dt.datetime | None = None, fetcher=cw.fetch, poster=cw.post_ntfy) -
             print(f"[{model}] could not use forecast: {exc}", file=sys.stderr)
     if not responses:
         print("No ensemble forecasts available, skipping storm outlook.", file=sys.stderr)
+        cw.note_summary("Storm outlook: forecasts unavailable this run")
         return 1
 
     chances = assess(responses, now, min_lead)
@@ -287,6 +288,14 @@ def run(now: dt.datetime | None = None, fetcher=cw.fetch, poster=cw.post_ntfy) -
     if known != state.get("storms", []) or "storms" not in state:
         cw.save_state(state_path, {"storms": known})
     print(f"Sent {sent} preliminary storm notification(s).")
+    if chances:
+        line = (f"Storm outlook: highest {top['prob']}% chance of {LOCATIONS[i][4]}+ mph gusts "
+                f"({LOCATIONS[i][0]}, {_day_label(day)}); alert threshold {min_prob}%")
+    else:
+        line = f"Storm outlook: no gust risk found; alert threshold {min_prob}%"
+    if storms:
+        line += f"; {len(storms)} possible storm(s), {sent} new alert(s) sent"
+    cw.note_summary(line)
     return 0
 
 
