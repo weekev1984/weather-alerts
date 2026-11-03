@@ -37,10 +37,10 @@ class HeartbeatTests(unittest.TestCase):
                 self.assertEqual(sent, [], value)
 
     def test_next_scheduled(self):
-        self.assertEqual(heartbeat.next_scheduled(NOW), NOW.replace(hour=12, minute=7))
+        self.assertEqual(heartbeat.next_scheduled(NOW), NOW.replace(hour=9, minute=7))
         late = NOW.replace(hour=11, minute=59)
         self.assertEqual(heartbeat.next_scheduled(late), NOW.replace(hour=12, minute=7))
-        night = NOW.replace(hour=22, minute=30)
+        night = NOW.replace(hour=23, minute=30)
         self.assertEqual(heartbeat.next_scheduled(night),
                          dt.datetime(2026, 11, 4, 0, 7, tzinfo=dt.timezone.utc))
 

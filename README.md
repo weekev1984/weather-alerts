@@ -1,12 +1,12 @@
 # Met Office warning notifier
 
-Checks the Met Office's official weather warnings RSS feed every 4 hours and
+Checks the Met Office's official weather warnings RSS feed every hour and
 sends a push notification to your phone (via [ntfy](https://ntfy.sh)) whenever
 a new warning appears. Runs for free on GitHub Actions. No server needed.
 
 ## How it works
 
-1. Every 4 hours, GitHub Actions runs `check_warnings.py`.
+1. Every hour, GitHub Actions runs `check_warnings.py`.
 2. It reads the warnings feed for your region(s) from
    `https://weather.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/<code>`.
 3. Any warning it hasn't seen before is pushed to your ntfy topic. Updated or
@@ -38,7 +38,7 @@ outside the network.
 
 Separately from the official warnings, `storm_outlook.py` looks up to 10 days
 ahead for storms, so you get a heads-up before the Met Office issues anything.
-It runs in the same 4-hourly job.
+It runs in the same hourly job.
 
 - **Source:** free ensemble forecasts of wind gusts from
   [Open-Meteo](https://open-meteo.com/en/docs/ensemble-api): ECMWF (51 runs)
@@ -120,8 +120,9 @@ alerts are always sent, whatever this is set to.
   is normally a few seconds.
 - **Timing:** GitHub's scheduled runs can start a few minutes (occasionally
   longer) after the scheduled time. Edit the `cron` line in
-  `.github/workflows/check-warnings.yml` to check more often, e.g.
-  `"7 * * * *"` for hourly.
+  `.github/workflows/check-warnings.yml` to change how often it checks, e.g.
+  `"7 */4 * * *"` for every 4 hours. If you change it, also update
+  `INTERVAL_HOURS` in `heartbeat.py` so the "next check" time stays right.
 - **Keeping the schedule alive:** GitHub pauses schedules in repos with no
   activity for 60 days, so the script rewrites `state.json` at least every 30 days.
 - **Test locally:** `DRY_RUN=1 python check_warnings.py` prints what it would send.
