@@ -71,14 +71,15 @@ still run as normal.
 
 ## Heartbeat ("it's still running") messages
 
-After every run you also get a quiet, low-priority message such as
+These are **off by default**. When turned on, after every run you also get a quiet, low-priority message such as
 `Weather check ran Tue 03 Nov 08:00 (GMT)` with a one-line summary of the Met
 Office check and the storm outlook (including the highest storm chance found),
 plus when the next check is due. Tapping it opens the run's log.
 
-To turn these off: **Settings → Secrets and variables → Actions → Variables →
-New repository variable**, name `HEARTBEAT`, value `off`. Set it back to `on`
-(or delete the variable) to turn them on again. Warnings and preliminary storm
+To turn them on (e.g. to check the hourly schedule is still running):
+**Settings → Secrets and variables → Actions → Variables → New repository
+variable**, name `HEARTBEAT`, value `on`. Set it to `off` (or delete the
+variable) to turn them off again. Warnings and preliminary storm
 alerts are always sent, whatever this is set to.
 
 ## Setup (about 5 minutes)
@@ -126,7 +127,7 @@ alerts are always sent, whatever this is set to.
   `Accept: application/vnd.github+json`, `Content-Type: application/json` and
   body `{"ref":"main"}`, every hour on the hour. The token is a fine-grained
   GitHub token for this repo only, with **Actions: Read and write**. A test run
-  should return **204**. If the heartbeats stop, check the job's history on
+  should return **204**. If runs stop (turn the heartbeat on to check), look at the job's history on
   cron-job.org (a 401 means the token expired or was revoked). To change how
   often it checks, change the cron-job.org schedule and `INTERVAL_HOURS` /
   `CRON_MINUTE` in `heartbeat.py` so the "next check" time stays right.

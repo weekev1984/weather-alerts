@@ -53,15 +53,15 @@ jobs:
           RUN_SUMMARY_FILE: ${{ runner.temp }}/run_summary.txt
         run: python storm_outlook.py
 
-      # "Still running" ping after every run. Turn off by setting the repository
-      # variable HEARTBEAT to off. Real warnings and storm alerts are unaffected.
+      # Optional "still running" ping after every run. Off by default; set the
+      # repository variable HEARTBEAT to on to enable. Real alerts are unaffected.
       - name: Send heartbeat
         if: always()
         continue-on-error: true
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC || secrets.KEVS_WEATHER || vars.NTFY_TOPIC || vars.KEVS_WEATHER }}
           NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
-          HEARTBEAT: ${{ vars.HEARTBEAT || 'on' }}
+          HEARTBEAT: ${{ vars.HEARTBEAT || 'off' }}
           RUN_SUMMARY_FILE: ${{ runner.temp }}/run_summary.txt
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: python heartbeat.py
