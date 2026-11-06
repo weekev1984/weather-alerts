@@ -1,4 +1,21 @@
 {
-  "last_written": "2026-11-02T07:29:33.898630+00:00",
-  "seen": {}
+  "last_written": "2026-11-06T21:01:03.719195+00:00",
+  "seen": {
+    "4f3eb80e9d3e55ae": {
+      "first_seen": "2026-11-06T21:01:03.719195+00:00",
+      "title": "Yellow warning of fog affecting London & South East England"
+    },
+    "7477f135f42a217a": {
+      "first_seen": "2026-11-06T21:01:03.719195+00:00",
+      "title": "Yellow warning of fog affecting East of England"
+    },
+    "ca2e1a50549c6c39": {
+      "first_seen": "2026-11-06T21:01:03.719195+00:00",
+      "title": "Yellow warning of fog affecting East Midlands"
+    },
+    "da42b10ae9c95162": {
+      "first_seen": "2026-11-06T21:01:03.719195+00:00",
+      "title": "Yellow warning of fog affecting West Midlands"
+    }
+  }
 }
