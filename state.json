@@ -1,25 +1,21 @@
 {
-  "last_written": "2026-11-07T11:01:01.943480+00:00",
+  "last_written": "2026-11-07T12:01:01.963554+00:00",
   "seen": {
     "12c8f40be47caa1f": {
       "first_seen": "2026-11-07T11:01:01.943480+00:00",
       "title": "Yellow warning of fog affecting South West England"
     },
-    "4f3eb80e9d3e55ae": {
-      "first_seen": "2026-11-06T21:01:03.719195+00:00",
-      "title": "Yellow warning of fog affecting London & South East England"
-    },
-    "7477f135f42a217a": {
-      "first_seen": "2026-11-06T21:01:03.719195+00:00",
-      "title": "Yellow warning of fog affecting East of England"
-    },
-    "ca2e1a50549c6c39": {
-      "first_seen": "2026-11-06T21:01:03.719195+00:00",
+    "43e3ad31c2ed7400": {
+      "first_seen": "2026-11-07T12:01:01.963554+00:00",
       "title": "Yellow warning of fog affecting East Midlands"
     },
-    "da42b10ae9c95162": {
-      "first_seen": "2026-11-06T21:01:03.719195+00:00",
+    "74b6a4a9e593b41d": {
+      "first_seen": "2026-11-07T12:01:01.963554+00:00",
       "title": "Yellow warning of fog affecting West Midlands"
+    },
+    "ef223f24d83976dd": {
+      "first_seen": "2026-11-07T12:01:01.963554+00:00",
+      "title": "Yellow warning of fog affecting London & South East England"
     }
   }
 }
