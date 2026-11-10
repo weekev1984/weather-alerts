@@ -1,37 +1,4 @@
 {
-  "last_written": "2026-11-09T12:01:01.960123+00:00",
-  "seen": {
-    "2503a8ad4394250d": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting East Midlands"
-    },
-    "44b88c1d3b975c3c": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting West Midlands"
-    },
-    "59bcb777f6b82ed5": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting South West England"
-    },
-    "77dd23826a88945d": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting East of England"
-    },
-    "85397f93f920ba6d": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting North West England"
-    },
-    "8f51ecb8a6816d3f": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting London & South East England"
-    },
-    "d48db00be25be69f": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting Wales"
-    },
-    "e11cf4adb19352e5": {
-      "first_seen": "2026-11-09T12:01:01.960123+00:00",
-      "title": "Yellow warning of fog affecting Yorkshire & Humber"
-    }
-  }
+  "last_written": "2026-11-10T11:01:07.647081+00:00",
+  "seen": {}
 }
