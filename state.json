@@ -1,13 +1,37 @@
 {
-  "last_written": "2026-11-15T11:00:57.895866+00:00",
+  "last_written": "2026-11-15T18:00:58.011037+00:00",
   "seen": {
+    "012bc1ac2d9dfb69": {
+      "first_seen": "2026-11-15T18:00:58.011037+00:00",
+      "title": "Yellow warning of snow affecting Strathclyde"
+    },
+    "0eca6f746bcd93f3": {
+      "first_seen": "2026-11-15T18:00:58.011037+00:00",
+      "title": "Yellow warning of snow affecting North East England"
+    },
+    "11f8da48fc4bbf2b": {
+      "first_seen": "2026-11-15T18:00:58.011037+00:00",
+      "title": "Yellow warning of snow affecting Dumfries, Galloway, Lothian & Borders"
+    },
     "433695ad9ff98f4d": {
       "first_seen": "2026-11-15T11:00:57.895866+00:00",
       "title": "Yellow warning of ice affecting Grampian"
     },
+    "8c679a8622157119": {
+      "first_seen": "2026-11-15T18:00:58.011037+00:00",
+      "title": "Yellow warning of snow affecting East Midlands"
+    },
+    "a16b1c424c804827": {
+      "first_seen": "2026-11-15T18:00:58.011037+00:00",
+      "title": "Yellow warning of snow affecting Yorkshire & Humber"
+    },
     "ab8fe8b7b5a9b65c": {
       "first_seen": "2026-11-15T11:00:57.895866+00:00",
       "title": "Yellow warning of ice affecting Central, Tayside & Fife"
+    },
+    "c55c5ca1fcf6f78f": {
+      "first_seen": "2026-11-15T18:00:58.011037+00:00",
+      "title": "Yellow warning of snow affecting West Midlands"
     },
     "d13a37b13500e765": {
       "first_seen": "2026-11-15T11:00:57.895866+00:00",
@@ -28,6 +52,10 @@
     "f18c25408e37fa2a": {
       "first_seen": "2026-11-15T11:00:57.895866+00:00",
       "title": "Yellow warning of ice affecting North East England"
+    },
+    "ffc914990428eeac": {
+      "first_seen": "2026-11-15T18:00:58.011037+00:00",
+      "title": "Yellow warning of snow affecting North West England"
     }
   }
 }
