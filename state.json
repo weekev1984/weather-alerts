@@ -1,9 +1,29 @@
 {
-  "last_written": "2026-11-23T16:01:02.374020+00:00",
+  "last_written": "2026-11-23T21:01:00.373417+00:00",
   "seen": {
+    "1106fb95a107d231": {
+      "first_seen": "2026-11-23T21:01:00.373417+00:00",
+      "title": "Yellow warning of ice affecting Central, Tayside & Fife"
+    },
+    "2c88bb8e7e4e523a": {
+      "first_seen": "2026-11-23T21:01:00.373417+00:00",
+      "title": "Yellow warning of ice affecting North East England"
+    },
+    "422c7c21c631a1e6": {
+      "first_seen": "2026-11-23T21:01:00.373417+00:00",
+      "title": "Yellow warning of ice affecting Highlands & Eilean Siar"
+    },
+    "4b37212896fbccba": {
+      "first_seen": "2026-11-23T21:01:00.373417+00:00",
+      "title": "Yellow warning of ice affecting Grampian"
+    },
     "cf43ee416a6f39cb": {
       "first_seen": "2026-11-23T16:01:02.374020+00:00",
       "title": "Yellow warning of rain affecting South West England"
+    },
+    "fddda23b6554308f": {
+      "first_seen": "2026-11-23T21:01:00.373417+00:00",
+      "title": "Yellow warning of ice affecting Dumfries, Galloway, Lothian & Borders"
     }
   }
 }
