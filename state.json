@@ -1,4 +1,25 @@
 {
-  "last_written": "2026-11-24T21:00:56.896129+00:00",
-  "seen": {}
+  "last_written": "2026-11-26T21:01:06.539853+00:00",
+  "seen": {
+    "16e1eaa5514344e6": {
+      "first_seen": "2026-11-26T21:01:06.539853+00:00",
+      "title": "Yellow warning of ice affecting West Midlands"
+    },
+    "185327287a8481d5": {
+      "first_seen": "2026-11-26T21:01:06.539853+00:00",
+      "title": "Yellow warning of ice affecting North West England"
+    },
+    "8822ac094b65b622": {
+      "first_seen": "2026-11-26T21:01:06.539853+00:00",
+      "title": "Yellow warning of ice affecting East Midlands"
+    },
+    "9319a3497fdf023d": {
+      "first_seen": "2026-11-26T21:01:06.539853+00:00",
+      "title": "Yellow warning of ice affecting North East England"
+    },
+    "c9283baecd8baf55": {
+      "first_seen": "2026-11-26T21:01:06.539853+00:00",
+      "title": "Yellow warning of ice affecting Yorkshire & Humber"
+    }
+  }
 }
