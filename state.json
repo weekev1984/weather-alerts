@@ -1,4 +1,13 @@
 {
-  "last_written": "2026-11-27T11:01:04.074924+00:00",
-  "seen": {}
+  "last_written": "2026-11-28T11:01:00.782371+00:00",
+  "seen": {
+    "8dc551ee11a50d9f": {
+      "first_seen": "2026-11-28T11:01:00.782371+00:00",
+      "title": "Yellow warning of rain affecting Wales"
+    },
+    "e4543826e2fc43ee": {
+      "first_seen": "2026-11-28T11:01:00.782371+00:00",
+      "title": "Yellow warning of rain affecting North West England"
+    }
+  }
 }
